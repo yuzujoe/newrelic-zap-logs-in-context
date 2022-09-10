@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/yuzujoe/newrelic-zap-logs-in-context/logger"
 	"net/http"
 	"os"
@@ -27,13 +26,14 @@ func main() {
 
 	r.Use(nrgorilla.Middleware(app))
 
-	r.HandleFunc("/example/{name}", ExampleHandler)
+	r.HandleFunc(newrelic.WrapHandleFunc(app, "/example/{name}", ExampleHandler))
 
 	http.ListenAndServe(":8000", r)
 }
 
 func ExampleHandler(w http.ResponseWriter, r *http.Request) {
-	txn := newrelic.FromContext(context.Background())
+	txn := newrelic.FromContext(r.Context())
+	defer txn.StartSegment("ExampleHanler").End()
 	vars := mux.Vars(r)
 
 	w.WriteHeader(http.StatusOK)
