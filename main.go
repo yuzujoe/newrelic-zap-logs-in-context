@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"github.com/yuzujoe/newrelic-zap-logs-in-context/logger"
 	"net/http"
 	"os"
@@ -18,11 +19,11 @@ func main() {
 
 	app, err := makeNewRelicApplication()
 	if err != nil {
-		logger.Logger.Error("error init newrelic apm agent")
+		logger.Lgr.Error("error init newrelic apm agent", nil)
 		os.Exit(1)
 	}
 
-	logger.Logger.Info("success newrelic init")
+	logger.Lgr.Info("success newrelic init", nil)
 
 	r.Use(nrgorilla.Middleware(app))
 
@@ -32,11 +33,14 @@ func main() {
 }
 
 func ExampleHandler(w http.ResponseWriter, r *http.Request) {
+	txn := newrelic.FromContext(context.Background())
 	vars := mux.Vars(r)
 
 	w.WriteHeader(http.StatusOK)
 
-	logger.Logger.Info("name is: " + vars["name"])
+	logger.Lgr.Info("name is: "+vars["name"], txn)
+	logger.Lgr.Warn("name is: "+vars["name"], txn)
+	logger.Lgr.Error("name is: "+vars["name"], txn)
 }
 
 func makeNewRelicApplication() (*newrelic.Application, error) {
