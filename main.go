@@ -33,7 +33,7 @@ func main() {
 
 func ExampleHandler(w http.ResponseWriter, r *http.Request) {
 	txn := newrelic.FromContext(r.Context())
-	defer txn.StartSegment("ExampleHanler").End()
+	defer txn.StartSegment("ExampleHandler").End()
 	vars := mux.Vars(r)
 
 	w.WriteHeader(http.StatusOK)
