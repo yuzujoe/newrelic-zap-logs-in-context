@@ -61,6 +61,7 @@ func (l *logger) Error(msg string, txn *newrelic.Transaction) {
 	l.Logger.Error(msg, transformAttributes(txn)...)
 }
 
+// Your logs will automatically include attributes such as span.id, trace.id, hostname, entity.guid, entity.name, and more. と書いてあるので最低限の metadata を付与.
 func transformAttributes(txn *newrelic.Transaction) []zap.Field {
 	if txn == nil {
 		return []zap.Field{}
