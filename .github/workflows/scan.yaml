@@ -1,0 +1,39 @@
+name: Security Scan
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+  jobs:
+    trivy_scan:
+      name: Trivy Scan
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+#        - name: Trivy Scan
+#          uses: aquasecurity/trivy-action@v0.2.0
+#          if: ${{ ! github.event.schedule }}
+#          with:
+#            image-ref: ${{ github.repository }}
+#            format: table
+#            exit-code: 1
+#            severity: 'HIGH,CRITICAL'
+
+        - name: Trivy Scan output sarif format
+          uses: aquasecurity/trivy-action@v0.2.0
+#          if: ${{ github.event.schedule }}
+          with:
+            image-ref: ${{ github.repository }}
+            format: sarif
+            severity: 'HIGH,CRITICAL'
+            template: '@/contrib/sarif.tpl'
+            output: trivy-scan.sarif
+            ignore-unfixed: true
+
+        - name: Upload Trivy Scan result
