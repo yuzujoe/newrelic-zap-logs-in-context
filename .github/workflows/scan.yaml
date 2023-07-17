@@ -24,6 +24,7 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: ${{ github.repository }}:${{ github.sha }}
+          load: true
 
 #        - name: Trivy Scan
 #          uses: aquasecurity/trivy-action@v0.2.0
