@@ -50,7 +50,7 @@ jobs:
         env:
           NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
         run: |
-          curl --location --request POST 'https://security-api.newrelic.com/security/v1?repository=${{github.repository}}' \
+          curl --location --request POST 'https://security-api.newrelic.com/security/v1?repository=${{github.repositoryUrl}}' \
           --header 'Api-Key: "$env.NEW_RELIC_LICENSE_KEY"' \
           --header 'Content-Type: application/json' \
           --header 'X-Scanner: Trivy' \
