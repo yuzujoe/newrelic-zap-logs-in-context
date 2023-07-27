@@ -23,6 +23,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: ${{ github.repository }}:${{ github.sha }}
           load: true
 
