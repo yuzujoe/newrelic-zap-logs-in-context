@@ -50,6 +50,7 @@ jobs:
         env:
           NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
         run: |
+          echo ${{ secrets.NEW_RELIC_LICENSE_KEY }}
           curl --location --request POST 'https://security-api.newrelic.com/security/v1?repository=${{github.server_url}}/${{github.repository}}' \
           --header 'Api-Key: "${{ env.NEW_RELIC_LICENSE_KEY }}"' \
           --header 'Content-Type: application/json' \
