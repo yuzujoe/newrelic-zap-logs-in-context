@@ -43,7 +43,7 @@ jobs:
         with:
           image-ref: ${{ github.repository }}:${{ github.sha }}
           format: sarif
-          severity: 'HIGH,CRITICAL'
+          severity: 'MEDIUM,HIGH,CRITICAL'
           template: '@/contrib/sarif.tpl'
           output: trivy-scan.json
           ignore-unfixed: true
