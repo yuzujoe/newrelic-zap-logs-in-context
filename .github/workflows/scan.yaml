@@ -45,7 +45,7 @@ jobs:
           format: sarif
           severity: 'HIGH,CRITICAL'
           template: '@/contrib/sarif.tpl'
-          output: trivy-scan.sarif
+          output: trivy-scan.json
           ignore-unfixed: true
 
       - name: Export New Relic Security API
@@ -56,4 +56,4 @@ jobs:
           --header 'Api-Key: ${{ env.NEW_RELIC_LICENSE_KEY }}' \
           --header 'Content-Type: application/json' \
           --header 'X-Scanner: Trivy' \
-          -d @trivy-scan.sarif
+          -d @trivy-scan.json
